@@ -1,8 +1,21 @@
-#include <Arduino.h>
+#include <SPI.h>
 #include <TFT_eSPI.h>
-#include <lvgl.h>
-#include <demos/lv_demos.h>
-#include "my_lv_ports.h"
+
+TFT_eSPI tft = TFT_eSPI();
+
+void drawTest(int x, int y, char *text, uint16_t color) {
+    x = min(x, 159);
+    y = min(y, 59);
+    tft.setCursor(x, y);
+    tft.setTextColor(color);
+    tft.setTextSize(1);
+    tft.setTextWrap(true);
+    tft.print(text);
+}
+
+void drawTest(char *text, uint16_t color) {
+    drawTest(20, 20, text, color);
+}
 
 /**
  * @brief 初始化屏幕摇杆
@@ -26,22 +39,36 @@ void keyGPIOInit() {
 }
 
 /**
+ * @brief 清空屏幕
+ *
+ */
+void allClean() {
+    tft.fillScreen(TFT_BLACK);
+}
+
+/**
  * @brief 该函数用于按键扫描，上下左右中分别返回12345，若无按键则返回 0
  *
  * @return int
  */
 int KEYScan() {
     if (digitalRead(UPKEY) == 0) {
+        drawTest("UPKEY", TFT_BLUE);
         return 1;
     } else if (digitalRead(DWKEY) == 0) {
+        drawTest("DWKEY", TFT_BLUE);
         return 2;
     } else if (digitalRead(LKEY) == 0) {
+        drawTest("LKEY", TFT_BLUE);
         return 3;
     } else if (digitalRead(RKEY) == 0) {
+        drawTest("RKEY", TFT_BLUE);
         return 4;
     } else if (digitalRead(CENTER) == 0) {
+        drawTest("CENTER", TFT_BLUE);
         return 5;
     } else {
+        allClean();  // 全清
         return 0;
     }
 }
@@ -51,14 +78,11 @@ void setup(void) {
     Serial.print("Hello! esp32c3 with air101lcd");
 
     keyGPIOInit();
-    lv_init();
-    my_disp_init();
-
-    lv_demo_benchmark();
-    Serial.println("Setup done");
+    tft.init();
+    tft.setRotation(1);
+    tft.fillScreen(TFT_BLACK);
 }
 
 void loop() {
-    lv_timer_handler(); /* let the GUI do its work */
-    delay(5);
+    KEYScan();
 }
