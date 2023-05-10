@@ -19,7 +19,7 @@ class UIManager {
     void create_lv_menu(lv_event_cb_t btn_event_cb);
     lv_group_t* group;
 
-    private:
+   private:
 };
 
 #endif  // _UIMANAGER_H_

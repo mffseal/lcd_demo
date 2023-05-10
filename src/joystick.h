@@ -1,10 +1,10 @@
 #ifndef _JOYSTICK_H_
 #define _JOYSTICK_H_
 
-#define JOYSTICK_UP_PIN 8
-#define JOYSTICK_DOWN_PIN 13
-#define JOYSTICK_LEFT_PIN 5
-#define JOYSTICK_RIGHT_PIN 9
+#define JOYSTICK_UP_PIN 13
+#define JOYSTICK_DOWN_PIN 8
+#define JOYSTICK_LEFT_PIN 9
+#define JOYSTICK_RIGHT_PIN 5
 #define JOYSTICK_ENTER_PIN 4
 
 enum JoystickDirection {

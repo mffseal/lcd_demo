@@ -1,6 +1,7 @@
 #include "my_lv_port_indev.h"
 
 #include <Arduino.h>
+#include <UIManager.h>
 #include <lvgl.h>
 
 #include "joystick.h"
@@ -53,13 +54,14 @@ void btn_event_cb(lv_event_t* e) {
         uint32_t key_code = *((uint32_t*)lv_event_get_param(e));
         Serial.print("key code:");
         Serial.println(key_code);
+        UIManager* ui_manager = static_cast<UIManager*>(lv_event_get_user_data(e));
 
         switch (key_code) {
             case JOYSTICK_UP:
-                lv_label_set_text(label, "UP");
+                lv_group_focus_prev(ui_manager->group);
                 break;
             case JOYSTICK_DOWN:
-                lv_label_set_text(label, "DOWN");
+                lv_group_focus_next(ui_manager->group);
                 break;
             case JOYSTICK_LEFT:
                 lv_label_set_text(label, "LEFT");
